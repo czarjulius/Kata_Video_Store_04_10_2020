@@ -42,6 +42,17 @@ STATEMENT_END
     rental = verifyStatementForMovieTypeAndAmountOwedAndRentalLength(Movie::NEW_RELEASE, 6, 2, 2)
   end
 
+  def get_movie_type(title, price_code)
+    case price_code
+    when Movie::REGULAR
+      RegularMovie.new(title, price_code)
+    when Movie::NEW_RELEASE
+      NewReleaseMovie.new(title, price_code)
+    when Movie::CHILDRENS
+      ChildrenMovie.new(title, price_code)
+    end
+  end
+
   def verifyStatementForMovieTypeAndAmountOwedAndRentalLength movie_type, amount_owed, rental_length, frequent_renter_points=1
     expected_statement = <<STATEMENT_END
 Rental Record for Test Man
@@ -50,7 +61,7 @@ Amount owed is #{amount_owed}
 You earned #{frequent_renter_points} frequent renter points
 STATEMENT_END
 
-    movie = Movie.new("A New Smash hit", movie_type)
+    movie = get_movie_type("A New Smash hit", movie_type)
     rental = Rental.new(movie, rental_length)
 
     @customer.add_rental(rental)
