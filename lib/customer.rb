@@ -1,6 +1,4 @@
-require_relative "regular_movie"
-require_relative "new_release_movie"
-require_relative "children_movie"
+
 
 class Customer
   attr_reader :name
